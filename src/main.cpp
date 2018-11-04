@@ -28,7 +28,7 @@
 **/
 int main(int argc,char **argv)
 {
-  ros::init(argc, argv, "robo_obs", ros::init_options::AnonymousName);
+  ros::init(argc, argv, "robo_wall", ros::init_options::AnonymousName);
   robo_feup::WallFollow obj(argc, argv);
   ros::spin();
   return 0;
