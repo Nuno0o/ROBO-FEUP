@@ -1,0 +1,25 @@
+<robot>
+  <robot_specifications>
+    <footprint>
+      <radius>0.3</radius>
+    </footprint>
+    <laser>
+      <filename>laser.xml</filename>
+      <laser_specifications>
+        <pose>
+          <theta>1.57</theta>
+        </pose>
+      </laser_specifications>
+    </laser>
+    <laser>
+      <filename>laser.xml</filename>
+      <laser_specifications>
+        <pose>
+          <theta>-1.57</theta>
+        </pose>
+        <max_range>10</max_range>
+        <num_rays>180</num_rays>
+      </laser_specifications>
+    </laser>
+  </robot_specifications>
+<robot>
