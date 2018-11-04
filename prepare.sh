@@ -1,0 +1,1 @@
+cp -r stdr_files/* ~/catkin_ws/src/stdr_simulator
