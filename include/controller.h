@@ -33,6 +33,18 @@
 #include <sensor_msgs/LaserScan.h>
 #include <sensor_msgs/Range.h>
 
+#define MAX_FLOAT 1000000
+
+#define BEHAVIOR_SEARCHING 0
+#define BEHAVIOR_FOLLOWING 1
+#define BEHAVIOR_TURNING   2
+#define BEHAVIOR_CORNERING 3
+
+#define LASER_RANGE 2
+#define ROBOT_RADIUS 0.15
+#define STANDART_SPEED 0.3
+#define MIN_ANGLE -135
+#define MAX_ANGLE 135
 /**
 @namespace stdr_samples
 @brief The main namespace for STDR Samples
@@ -46,7 +58,6 @@ namespace robo_feup
   class WallFollow
   {
     private:
-      
       //!< The ros laser scan msg
       sensor_msgs::LaserScan scan_;
       
@@ -89,4 +100,11 @@ namespace robo_feup
       void callback(const sensor_msgs::LaserScan& msg);
       
   };
+
+  class MathFuncs
+  {
+    public:
+      static float radianToDegree(float radian);
+      static float degreeToRadian(float degrees);
+  }
 }
