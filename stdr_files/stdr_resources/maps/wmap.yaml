@@ -1,4 +1,4 @@
-image: vmap.png
+image: wmap.png
 resolution: 0.030
 origin: [0.0, 0.0, 0.0]
 occupied_thresh: 0.6
