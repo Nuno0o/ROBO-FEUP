@@ -73,7 +73,7 @@ namespace robo_feup
 
     for(unsigned int i = 0 ; i < scan_.ranges.size() ; i++)
     {
-      float real_dist = scan_.ranges[i];
+      float real_dist = scan_.ranges[i] > LASER_RANGE ? LASER_RANGE : scan_.ranges[i];
       float angle = scan_.angle_min + i * scan_.angle_increment;
       float angle_degrees = MathFuncs::radianToDegree(angle);
 
@@ -82,13 +82,13 @@ namespace robo_feup
         min_angle = angle;
       }
       if(angle_degrees <= 0 && angle_degrees >= MIN_ANGLE){//wall on the right side
-        if(scan_.ranges[i] < min_dist_right){
-          min_dist_right = scan_.ranges[i];
+        if(real_dist < min_dist_right){
+          min_dist_right = real_dist;
         }
       }
       if(angle_degrees >= 0 && angle_degrees <= MAX_ANGLE){//wall on the left side
-        if(scan_.ranges[i] < min_dist_left){
-          min_dist_left = scan_.ranges[i];
+        if(real_dist < min_dist_left){
+          min_dist_left = real_dist;
         }
       }
       linear -= cos(scan_.angle_min + i * scan_.angle_increment) 
@@ -102,7 +102,8 @@ namespace robo_feup
     //calculate right hand side inclination
     linear = linear > 0.3 ? 0.3 : linear;
     linear = linear < -0.3 ? -0.3 : linear;
-    //detect behavior
+    std::cout << linear;
+    //detect btheehavior
     int behavior;
     if(scan_.range_max == min_dist){
       behavior = BEHAVIOR_SEARCHING;
@@ -112,25 +113,36 @@ namespace robo_feup
     //behavior
     geometry_msgs::Twist cmd;
     //choose behavior
+    float ang;//angle of turning of the robot
+    float orientation;//position of the wall relative to the robot(-1 = left, 1 = right)
     switch(behavior){
       case BEHAVIOR_SEARCHING:
-        cmd.linear.x = STANDART_SPEED
+        cmd.linear.x = STANDART_SPEED;
         cmd.angular.z = 0;
+        break;
       case BEHAVIOR_FOLLOWING:
-        cmd.linear.x = STANDART_SPEED + linear;
-        cmd.angular.z = 3*sin(angle);
+        cmd.linear.x = STANDART_SPEED;
+        orientation = min_angle > 0 ? -1 : 1;
+        ang = cos(min_angle) * orientation;
+        ang += min_dist > BEST_WALL_RANGE ? -abs(BEST_WALL_RANGE-min_dist) * orientation : abs(BEST_WALL_RANGE-min_dist) * orientation;
+        cmd.angular.z = TURN_SPEED * ang;
+        break;
+      case BEHAVIOR_CORNERING:
+
+        break;
       default:
         return;
     }
     //send movement command
     cmd_vel_pub_.publish(cmd);
   }
-}
 
-static float MathFuncs::degreeToRadian(float degrees){
-  return degree * 3.1415926 / 180;
-}
 
-static float MathFuncs::radianToDegree(float radian){
-  return radian * 180 / 3.1415926;
+  float MathFuncs::degreeToRadian(float degrees){
+    return degrees * 3.1415926 / 180;
+  }
+
+  float MathFuncs::radianToDegree(float radian){
+    return radian * 180 / 3.1415926;
+  }
 }

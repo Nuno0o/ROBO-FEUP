@@ -21,6 +21,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <cmath>
+#include <algorithm>
 
 #include <ros/package.h>
 #include "ros/ros.h"
@@ -37,14 +38,15 @@
 
 #define BEHAVIOR_SEARCHING 0
 #define BEHAVIOR_FOLLOWING 1
-#define BEHAVIOR_TURNING   2
-#define BEHAVIOR_CORNERING 3
+#define BEHAVIOR_CORNERING 2
 
 #define LASER_RANGE 2
 #define ROBOT_RADIUS 0.15
-#define STANDART_SPEED 0.3
+#define BEST_WALL_RANGE 0.5
+#define STANDART_SPEED 0.6
 #define MIN_ANGLE -135
 #define MAX_ANGLE 135
+#define TURN_SPEED 2
 /**
 @namespace stdr_samples
 @brief The main namespace for STDR Samples
@@ -106,5 +108,5 @@ namespace robo_feup
     public:
       static float radianToDegree(float radian);
       static float degreeToRadian(float degrees);
-  }
+  };
 }
