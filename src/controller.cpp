@@ -42,7 +42,7 @@ namespace robo_feup
     laser_topic_ = std::string("/") + std::string(argv[1]) + std::string("/") + std::string(argv[2]);
     
     speeds_topic_ = std::string("/") + std::string(argv[1]) + std::string("/cmd_vel");
-      
+    srand(time(NULL));
     subscriber_ = n_.subscribe(laser_topic_.c_str(), 1, &WallFollow::callback,this);
     cmd_vel_pub_ = n_.advertise<geometry_msgs::Twist>(speeds_topic_.c_str(), 1);
   }
@@ -115,7 +115,7 @@ namespace robo_feup
     switch(behavior){
       case BEHAVIOR_SEARCHING:
         cmd.linear.x = STANDART_SPEED;
-        cmd.angular.z = 0;
+        cmd.angular.z = ((float)(rand() % 3) -1) * PI;
         std::cout << "SEARCHING\n";
         break;
       case BEHAVIOR_FOLLOWING:

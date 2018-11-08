@@ -22,6 +22,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
+#include <time.h>
 
 #include <ros/package.h>
 #include "ros/ros.h"
