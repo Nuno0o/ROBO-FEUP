@@ -94,7 +94,6 @@ namespace robo_feup
         }
       }
     }
-    
     linear = ((scan_.range_max - min_dist + ROBOT_RADIUS)/scan_.range_max) * cos(min_angle) * STANDART_SPEED * 0.5;
     //detect behavior
     int behavior;
@@ -115,7 +114,8 @@ namespace robo_feup
     switch(behavior){
       case BEHAVIOR_SEARCHING:
         cmd.linear.x = STANDART_SPEED;
-        cmd.angular.z = ((float)(rand() % 3) -1) * PI;
+        cmd.angular.z = 0;
+
         std::cout << "SEARCHING\n";
         break;
       case BEHAVIOR_FOLLOWING:
@@ -124,6 +124,7 @@ namespace robo_feup
         ang += cos(min_angle) * orientation;
         ang += min_dist >= BEST_WALL_RANGE ? -(abs(BEST_WALL_RANGE-min_dist)/BEST_WALL_RANGE) * orientation : (abs(BEST_WALL_RANGE-min_dist)/BEST_WALL_RANGE) * orientation;
         cmd.angular.z = STANDART_SPEED * ang * PI * 0.75;
+
         std::cout << "FOLLOWING WALL";
         if(orientation == -1){
           std::cout << " AT LEFT\n";
@@ -133,17 +134,17 @@ namespace robo_feup
         std::cout << "Distance from wall= " << min_dist << " (Ideal=" << BEST_WALL_RANGE << ")\n";
         break;
       case BEHAVIOR_CORNERING:
-        std::cout << "CORNERING";
         cmd.linear.x = STANDART_SPEED - linear;
         orientation = min_angle > 0 ? -1 : 1;
-        if(orientation == -1){
+        ang += orientation == -1 ? orientation * (sin(abs(min_angle - min_angle_right))) : orientation * (sin(abs(min_angle - min_angle_left)));
+        cmd.angular.z = STANDART_SPEED * ang * PI * 1.25;
+
+	std::cout << "CORNERING";
+	if(orientation == -1){
           std::cout << " TO THE RIGHT\n";
         }else{
           std::cout << " TO THE LEFT\n";
         }
-
-        ang += orientation == -1 ? orientation * (sin(abs(min_angle - min_angle_right))) : orientation * (sin(abs(min_angle - min_angle_left)));
-        cmd.angular.z = STANDART_SPEED * ang * PI * 1.25;
         break;
       default:
         return;
