@@ -137,7 +137,7 @@ namespace robo_feup
         cmd.linear.x = STANDART_SPEED - linear;
         orientation = min_angle > 0 ? -1 : 1;
         ang += orientation == -1 ? orientation * (sin(abs(min_angle - min_angle_right))) : orientation * (sin(abs(min_angle - min_angle_left)));
-        cmd.angular.z = STANDART_SPEED * ang * PI * 1.25;
+        cmd.angular.z = STANDART_SPEED * ang * PI * 1;
 
 	std::cout << "CORNERING";
 	if(orientation == -1){
