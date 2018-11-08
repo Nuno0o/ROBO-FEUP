@@ -35,18 +35,16 @@
 #include <sensor_msgs/Range.h>
 //high float number
 #define MAX_FLOAT 1000000
+#define PI 3.1415926
 //behaviors
 #define BEHAVIOR_SEARCHING 0
 #define BEHAVIOR_FOLLOWING 1
 #define BEHAVIOR_CORNERING 2
 //parameters for different performances
 #define ROBOT_RADIUS 0.15
-#define BEST_WALL_RANGE 0.75
-#define STANDART_SPEED 3
-#define MIN_ANGLE -135
-#define MAX_ANGLE 135
-#define MIN_TURN_ANGLE 15
-#define TURN_SPEED 3
+#define BEST_WALL_RANGE 0.8
+#define STANDART_SPEED 2
+#define MIN_TURN_ANGLE 50
 /**
 @namespace stdr_samples
 @brief The main namespace for STDR Samples
